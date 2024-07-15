@@ -1,0 +1,233 @@
+<!-- Section: Design Block -->
+<section class="background-radial-gradient overflow-hidden d-flex align-items-center min-vh-100">
+  <style>
+    &[disabled] {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .background-radial-gradient {
+      background-color: hsl(218, 41%, 15%);
+      background-image: radial-gradient(
+          650px circle at 0% 0%,
+          hsl(218, 41%, 35%) 15%,
+          hsl(218, 41%, 30%) 35%,
+          hsl(218, 41%, 20%) 75%,
+          hsl(218, 41%, 19%) 80%,
+          transparent 100%
+        ),
+        radial-gradient(
+          1250px circle at 100% 100%,
+          hsl(218, 41%, 45%) 15%,
+          hsl(218, 41%, 30%) 35%,
+          hsl(218, 41%, 20%) 75%,
+          hsl(218, 41%, 19%) 80%,
+          transparent 100%
+        );
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 150px;
+      height: auto;
+    }
+
+    #radius-shape-1 {
+      height: 220px;
+      width: 220px;
+      top: -60px;
+      left: -130px;
+      background: radial-gradient(#44006b, #ad1fff);
+      overflow: hidden;
+    }
+
+    #radius-shape-2 {
+      border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+      bottom: -60px;
+      right: -110px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(#44006b, #ad1fff);
+      overflow: hidden;
+    }
+
+    .bg-glass {
+      background-color: hsla(0, 0%, 100%, 0.9) !important;
+      backdrop-filter: saturate(200%) blur(25px);
+    }
+
+    .container {
+      max-width: 1000px;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 3rem;
+    }
+
+    p {
+      font-size: 1.25rem;
+    }
+
+    .form-control {
+      font-size: 1.1rem;
+    }
+
+    .btn {
+      font-size: 1.1rem;
+      padding: 0.75rem 1.5rem;
+    }
+
+    .form-outline {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 0.375rem 0.75rem;
+      pointer-events: none;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .form-control:focus ~ .form-label,
+    .form-control:not(:placeholder-shown) ~ .form-label {
+      top: -1rem;
+      left: 0.75rem;
+      font-size: 0.85rem;
+      color: hsl(218, 41%, 35%);
+    }
+
+    .error-message {
+      color: red;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+  </style>
+
+  <img src="/logo.png" alt="Logo" class="logo">
+
+  <div class="container text-center text-lg-start">
+    <div class="row gx-lg-5 align-items-center">
+      <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+        <h1 class="display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
+          The best support <br />
+          <span style="color: hsl(218, 81%, 75%)">for your business</span>
+        </h1>
+        <p class="opacity-70" style="color: hsl(218, 81%, 85%)">
+          Your Ultimate Helpdesk Solution. Streamline ticket management, boost efficiency, and enhance customer satisfaction with our intuitive, user-friendly interface. Empower your support team to resolve issues faster and more effectively with Solvify.
+        </p>
+      </div>
+
+      <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+        <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+        <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+
+        <div class="card bg-glass">
+          <div class="card-body px-4 py-5 px-md-5">
+  
+              <!-- Firstname input -->
+              <div data-mdb-input-init class="form-outline">
+                <input [(ngModel)]="registerRequest.firstname"  class="form-control" id="firstname" placeholder=" " />
+                <label for="firstname" class="form-label" for="form3Example3Firstname">Firstname</label>
+               <!-- <div *ngIf="form.get('firstname')?.invalid && form.get('firstname')?.touched" class="error-message">
+                  <div *ngIf="form.get('firstname')?.errors?.['required']">Firstname is required.</div>
+                </div>-->
+              </div>
+
+              <!-- Lastname input -->
+              <div data-mdb-input-init class="form-outline">
+                <input [(ngModel)]="registerRequest.lastname"  class="form-control" id="lastname" placeholder=" " />
+                <label for="lastname" class="form-label" for="form3Example3Lastname">Lastname</label>
+                <!--<div *ngIf="form.get('lastname')?.invalid && form.get('lastname')?.touched" class="error-message">
+                  <div *ngIf="form.get('lastname')?.errors?.['required']">Lastname is required.</div>
+                </div>-->
+              </div>
+
+
+
+              <!-- Email input -->
+              <div data-mdb-input-init class="form-outline">
+                <input [(ngModel)]="registerRequest.email" type="email"  class="form-control" id="email" placeholder=" " />
+                <label for="email" class="form-label" for="form3Example3Email">Email address</label>
+               <!-- <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)" class="error-message">
+                  <div *ngIf="form.get('email')?.errors?.['required']">Email is required.</div>
+                  <div *ngIf="form.get('email')?.errors?.['email']">Invalid email format.</div>
+                </div>-->
+              </div>
+
+              <!-- Password input -->
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input [(ngModel)]="registerRequest.password" type="password" class="form-control" id="password" placeholder=" " />
+                <label for="password" class="form-label" for="form3Example4">Password</label>
+               <!-- <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched" class="error-message">
+                  <div *ngIf="form.get('password')?.errors?.['required']">Password is required.</div>
+                  <div *ngIf="form.get('password')?.errors?.['strongPassword']">
+                    Password must be at least 8 characters long and contain an uppercase letter, a lowercase letter, a digit, and a special character.
+                  </div>
+                </div>-->
+              </div>
+              <div>
+                <label for="role">Role:</label>
+                <select id="role" [(ngModel)]="selectedRole" name="selectedRole">
+                  <option value="ROLE_USER">USER</option>
+                  <option value="ROLE_ADMIN">ADMIN</option>
+                </select>
+              </div>
+  
+              <!-- Submit button -->
+              <button (click)="selectedRole === 'ROLE_ADMIN' ? registerAdmin() : register()" type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">
+                <em>Create an account</em>
+              </button>
+  
+              <!-- Checkbox -->
+              <div class="form-check d-flex justify-content-center mb-4">
+                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
+                <label class="form-check-label" for="form2Example33">
+                  Subscribe to our newsletter
+                </label>
+              </div>
+              <!-- Register buttons -->
+              <div class="text-center">
+                <p>Already have an account?&nbsp;</p>
+               <button (click)="login()" type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">
+                  Sign in
+                </button>
+                <p>or sign up with:</p>
+                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+                  <i class="fab fa-facebook-f"></i>
+                </button>
+
+                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+                  <i class="fab fa-google"></i>
+                </button>
+
+                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+                  <i class="fab fa-twitter"></i>
+                </button>
+
+                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+                  <i class="fab fa-github"></i>
+                </button>
+              </div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Section: Design Block -->
