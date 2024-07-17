@@ -91,6 +91,30 @@ public class AuthenticationService {
         }
     }
 
+    public void registerSuperAdmin(RegestrationRequest request) throws MessagingException {
+        var superAdminRole = roleRepository.findByName("SUPER_ADMIN")
+                .orElseThrow(() -> new IllegalStateException("ROLE SUPER_ADMIN was not initiated"));
+
+        try {
+            var superAdmin = User.builder()
+                    .firstname(request.getFirstname())
+                    .lastname(request.getLastname())
+                    .email(request.getEmail())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .accountLocked(false)
+                    .enabled(false)
+                    .roles(List.of(superAdminRole))
+                    .build();
+
+            userRepository.save(superAdmin);
+            sendValidationEmail(superAdmin);
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalStateException("Failed to register super admin due to database constraint violation", e);
+        } catch (Exception e) {
+            throw new MessagingException("Failed to register super admin: " + e.getMessage(), e);
+        }
+    }
+
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         try {
             var user = userRepository.findByEmail(request.getEmail())
@@ -175,5 +199,44 @@ public class AuthenticationService {
         }
 
         return codeBuilder.toString();
+    }
+
+    @Transactional
+    public void modifyAdmin(Integer userId, RegestrationRequest request) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Admin not found"));
+        user.setEmail(request.getEmail());
+        user.setFirstname(request.getFirstname());
+        user.setLastname(request.getLastname());
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void deleteUser(int userId) {
+        // Delete tokens first
+        tokenRepository.deleteByUserId(userId);
+        // Then delete the user
+        userRepository.deleteById(userId);
+    }
+
+    @Transactional
+    public void addAdmin(RegestrationRequest request) throws MessagingException {
+        var adminRole = roleRepository.findByName("ADMIN")
+                .orElseThrow(() -> new IllegalStateException("ROLE ADMIN was not initiated"));
+
+        try {
+            var admin = User.builder()
+                    .firstname(request.getFirstname())
+                    .lastname(request.getLastname())
+                    .email(request.getEmail())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .accountLocked(false)
+                    .enabled(true) // Admin accounts are enabled by default
+                    .roles(List.of(adminRole))
+                    .build();
+
+            userRepository.save(admin);
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalStateException("Failed to add admin due to database constraint violation", e);
+        }
     }
 }

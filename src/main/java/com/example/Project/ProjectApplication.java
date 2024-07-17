@@ -29,6 +29,9 @@ public class ProjectApplication {
 			if (roleRepository.findByName("ADMIN").isEmpty()) {
 				roleRepository.save(Role.builder().name("ADMIN").build());
 			}
+			if (roleRepository.findByName("SUPER_ADMIN").isEmpty()) {
+				roleRepository.save(Role.builder().name("SUPER_ADMIN").build());
+			}
 		};
 	}
 

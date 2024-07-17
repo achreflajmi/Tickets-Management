@@ -78,6 +78,7 @@ public class TicketService {
                 tickets.isLast()
         );
     }
+
     public PageResponse<TicketResponse> getTicketsByUser(int page, int size, String userId) {
         // Retrieve user based on userId
         User user = userRepository.findByEmail(userId)
@@ -98,6 +99,7 @@ public class TicketService {
                 tickets.isLast()
         );
     }
+
     public int updateTicket(int ticketId, TicketRequest updatedTicket, Authentication connectedUser) {
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new EntityNotFoundException("No ticket found with ID:: " + ticketId));
@@ -116,6 +118,7 @@ public class TicketService {
         ticketRepository.save(ticket);
         return ticketId;
     }
+
     public int closeTicket(int ticketId, Authentication connectedUser) {
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new EntityNotFoundException("No ticket found with ID: " + ticketId));
@@ -143,4 +146,26 @@ public class TicketService {
         ticketRepository.delete(ticket);
         return ticketId;
     }
+
+    public List<Ticket> getTicketsByAdmin(User admin) {
+        return ticketRepository.findByAssignedAdmin(admin);
+    }
+
+    @Transactional
+    public void assignTicketToAdmin(Integer ticketId, Integer adminId) {
+        Ticket ticket = ticketRepository.findById(ticketId).orElseThrow(() -> new RuntimeException("Ticket not found"));
+        User admin = userRepository.findById(adminId).orElseThrow(() -> new RuntimeException("Admin not found"));
+        ticket.setAssignedAdmin(admin);
+        ticketRepository.save(ticket);
+    }
+
+    public List<Ticket> getAllTickets() {
+        return ticketRepository.findAll();
+    }
+
+
+    public List<Ticket> getTicketsByUser(User user) {
+        return ticketRepository.findByUser(user);
+    }
 }
+

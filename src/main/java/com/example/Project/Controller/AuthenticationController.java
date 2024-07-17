@@ -31,6 +31,14 @@ public class AuthenticationController {
         service.register(request);
         return ResponseEntity.accepted().build();
     }
+    @PostMapping("/register-super-admin")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResponseEntity<?> registerSuperAdmin(
+            @RequestBody @Valid RegestrationRequest request
+    ) throws MessagingException {
+        service.registerSuperAdmin(request);
+        return ResponseEntity.accepted().build();
+    }
 
     @PostMapping("/register-admin")
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -65,4 +73,15 @@ public class AuthenticationController {
         // Return CustomUserDetails with OK status
         return ResponseEntity.ok().body(userDetails);
     }
+
+    @GetMapping("/admin/data")
+    public ResponseEntity<String> getAdminData() {
+        return ResponseEntity.ok("This is data only accessible to admins");
+    }
+
+    @GetMapping("/super-admin/data")
+    public ResponseEntity<String> getSuperAdminData() {
+        return ResponseEntity.ok("This is data only accessible to super admins");
+    }
+
 }
