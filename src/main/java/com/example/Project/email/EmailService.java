@@ -23,6 +23,7 @@ import static org.springframework.mail.javamail.MimeMessageHelper.MULTIPART_MODE
 public class EmailService {
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
+    private final JavaMailSender emailSender;
 
     @Async
     public void sendEmail(
@@ -54,5 +55,13 @@ public class EmailService {
         helper.setText(template, true);
 
         mailSender.send(mimeMessage);
+    }
+    public void sendEmailSuper(String to, String subject, String text) throws MessagingException {
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(text, true);
+        emailSender.send(message);
     }
 }

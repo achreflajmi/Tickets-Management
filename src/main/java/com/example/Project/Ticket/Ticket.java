@@ -49,6 +49,9 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @ManyToOne
+    @JoinColumn(name = "assigned_admin_id")
+    private User assignedAdmin;
 
     public enum Type {
         Incident, Suggestion, Question, Problem
