@@ -6,14 +6,15 @@ import { isPlatformBrowser } from '@angular/common';
   providedIn: 'root'
 })
 export class TokenService {
-
   private jwtHelper = new JwtHelperService();
+  private _userRoles: Array<string> = [];
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   set token(token: string) {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem('token', token);
+      this._userRoles = this.decodeRoles(token); // Set roles when token is set
     }
   }
 
@@ -31,10 +32,10 @@ export class TokenService {
       if (!token) {
         return false;
       }
-      // Check if token is expired
       const isTokenExpired = this.jwtHelper.isTokenExpired(token);
       if (isTokenExpired) {
         localStorage.clear();
+        this._userRoles = []; // Clear roles on token expiry
         return false;
       }
       return true;
@@ -47,15 +48,14 @@ export class TokenService {
   }
 
   get userRoles(): string[] {
-    if (isPlatformBrowser(this.platformId)) {
-      const token = this.token;
-      if (token) {
-        const decodedToken = this.jwtHelper.decodeToken(token);
-        return decodedToken.authorities || []; // Adjust based on the structure of your token
-      }
-    }
-    return [];
+    return this._userRoles; // Return roles stored in the service
   }
+
+  private decodeRoles(token: string): string[] {
+    const decodedToken = this.jwtHelper.decodeToken(token);
+    return decodedToken.roles || []; // Adjust based on the structure of your token
+  }
+  
 
   getConnectedUserId(): string | null {
     if (isPlatformBrowser(this.platformId)) {
@@ -78,4 +78,18 @@ export class TokenService {
     }
     return null;
   }
+
+  clearToken() {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('token');
+      this._userRoles = []; // Clear user roles on logout
+    }
+  }
+
+  
+  set userRoles(roles: string[]) {
+    this._userRoles = roles; // Allow setting user roles directly
+  }
+  
+
 }

@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 // ticket-response.model.ts
-import { TicketPriority, TicketType, TicketStatus } from '../dashbord/dashbord.component'; 
+import { TicketPriority, TicketType, TicketStatus } from '../User/dashbord/dashbord.component'; 
 export interface TicketResponse {
   id: number;
   subject: string;

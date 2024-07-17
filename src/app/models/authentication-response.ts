@@ -3,4 +3,6 @@
 export interface AuthenticationResponse {
     token?: string;
     user: any;
+    roles: string[]; // Add this line
+
   }

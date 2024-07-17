@@ -11,7 +11,12 @@ import { RegistrationARequest } from './../models/registration-request';
 
 
 export interface RegisterA$Params {
-      body: RegistrationARequest
+  body: {
+    email: string;
+    firstname: string;
+    lastname: string;
+    password: string;
+  };
 }
 
 export function registerA(http: HttpClient, baseUrl: string, params: RegisterA$Params, context?: HttpContext): Observable<StrictHttpResponse<{

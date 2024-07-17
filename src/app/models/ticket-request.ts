@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-import { TicketPriority, TicketStatus, TicketType } from '../dashbord/dashbord.component'; 
+import { TicketPriority, TicketStatus, TicketType } from '../User/dashbord/dashbord.component'; 
 
 
 export interface TicketRequest {

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
-import { DashbordComponent } from './dashbord/dashbord.component';
+import { DashbordComponent } from './User/dashbord/dashbord.component';
 
 
 @Component({

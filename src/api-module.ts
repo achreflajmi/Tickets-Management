@@ -2,7 +2,7 @@
 /* eslint-disable */
 import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from './app/auth.service';
+import { AuthService } from './app/Services/auth.service';
 import { ApiConfiguration, ApiConfigurationParams } from './app/api-configuration';
 
 

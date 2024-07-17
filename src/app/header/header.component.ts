@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { DashbordComponent } from '../dashbord/dashbord.component';
-import { AuthService } from '../auth.service';
+import { DashbordComponent } from '../User/dashbord/dashbord.component';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-header',

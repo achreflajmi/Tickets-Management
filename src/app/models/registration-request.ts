@@ -5,12 +5,12 @@ export interface RegistrationRequest {
     firstname: string;
     lastname: string;
     password: string;
-    Roles: string[];
+    isEnabled?: boolean; 
+
   }
   export interface RegistrationARequest {
     email: string;
     firstname: string;
     lastname: string;
     password: string;
-    Roles: string[];
   }

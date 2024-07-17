@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from '../login/login.component';
 import { RegistrationRequest } from '../models/registration-request';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../Services/auth.service';
 import { ActivateAccountComponent } from '../activate-account/activate-account.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -27,10 +27,10 @@ export class RegistrationComponent {
     lastname: '',
     email: '',
     password: '',
-    Roles: []
+
   };
   errorMsg: string[] = [];
-  selectedRole: string = 'ADMIN'; // Default role selection
+
 
   constructor(
     private router: Router,
@@ -41,9 +41,7 @@ export class RegistrationComponent {
 
   ngOnInit(): void {
     const currentPath = this.route.snapshot.url[0]?.path; // Get the first segment of the current URL
-    if (currentPath === 'register-admin') {
-      this.selectedRole = 'ADMIN'; // Set default role for admin registration
-    }
+ 
   }
 
   login() {
@@ -52,8 +50,7 @@ export class RegistrationComponent {
 
   register() {
     this.errorMsg = [];
-    this.registerRequest.Roles = [this.selectedRole];
-    console.log('Selected Role:', this.selectedRole);
+
     this.authService.registerUser({ body: this.registerRequest })
       .subscribe({
         next: () => {
@@ -63,18 +60,7 @@ export class RegistrationComponent {
       });
   }
 
-  registerAdmin() {
-    this.errorMsg = [];
-    this.registerRequest.Roles = [this.selectedRole];
-    console.log('Selected Role:', this.selectedRole);
-    this.authService.registerAdmin({ body: this.registerRequest })
-      .subscribe({
-        next: () => {
-          this.router.navigate(['activate-account']);
-        },
-        error: (err) => this.handleRegistrationError(err)
-      });
-  }
+
 
   private handleRegistrationError(err: any) {
     console.error('Error object:', err);

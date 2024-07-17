@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../Services/auth.service';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors, ValidatorFn, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { DashbordComponent } from '../dashbord/dashbord.component';
+import { DashbordComponent } from '../User/dashbord/dashbord.component';
 import { RegistrationComponent } from '../register/register.component';
 import {AuthenticationRequest} from '../models/authentication-request';
 import {TokenService} from '../token/token.service';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { Roles } from '../models/roles';
+import { SuperadminDashboardComponent } from '../SuperAdmin/superadmin-dashboard/superadmin-dashboard.component';
+
 
 @Component({
   selector: 'app-login',
@@ -36,8 +39,21 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
     this.errorMsg = [];
     this.authService.authenticate({ body: this.authRequest }).subscribe({
       next: (res) => {
-        this.tokenService.token = res.token as string;
-        this.router.navigate(['dashboard']);
+        this.tokenService.token = res.token as string; // Set token
+        this.tokenService.userRoles = res.roles; // Set roles from response
+  
+        const userRoles = this.tokenService.userRoles;
+  
+        if (userRoles.includes(Roles.SUPERADMIN)) {
+          console.log('this is superadmin');
+          this.router.navigate(['superadmin-dashboard']);
+        } else if (userRoles.includes(Roles.ADMIN)) {
+          console.log('this is admin');
+          this.router.navigate(['admin-dashboard']);
+        } else {
+          console.log('this is user');
+          this.router.navigate(['dashboard']);
+        }
       },
       error: (err) => {
         console.error('Error object:', err);
@@ -49,6 +65,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
       }
     });
   }
+  
 
 
   register() {

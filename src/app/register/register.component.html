@@ -180,16 +180,10 @@
                   </div>
                 </div>-->
               </div>
-              <div>
-                <label for="role">Role:</label>
-                <select id="role" [(ngModel)]="selectedRole" name="selectedRole">
-                  <option value="ROLE_USER">USER</option>
-                  <option value="ROLE_ADMIN">ADMIN</option>
-                </select>
-              </div>
+       
   
               <!-- Submit button -->
-              <button (click)="selectedRole === 'ROLE_ADMIN' ? registerAdmin() : register()" type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">
+              <button (click)="register()" type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">
                 <em>Create an account</em>
               </button>
   

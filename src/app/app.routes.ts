@@ -1,11 +1,15 @@
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { DashbordComponent } from './dashbord/dashbord.component';
+import { DashbordComponent } from './User/dashbord/dashbord.component';
 import { HeaderComponent } from './header/header.component';
 import { authGuard } from './auth.guard';
 import { RegistrationComponent } from './register/register.component';
 import { ActivateAccountComponent } from './activate-account/activate-account.component';
-import { ChatComponent } from './chat/chat.component';
+import { ChatComponent } from './User/chat/chat.component';
+import { AdminDashboardComponent } from './Admin/admin-dashboard/admin-dashboard.component';
+import { SuperadminDashboardComponent } from './SuperAdmin/superadmin-dashboard/superadmin-dashboard.component';
+import { HeaderAdminComponent } from './header-admin/header-admin.component';
+import { AdminManagementComponent } from './SuperAdmin/admin-management-component/admin-management-component.component';
 
 export const routes: Routes = [
     {
@@ -14,7 +18,7 @@ export const routes: Routes = [
       },
     {
         path: '',
-        redirectTo: '/login',
+        redirectTo: '/superadmin-dashboard',
         pathMatch: 'full',
       },
       
@@ -44,5 +48,13 @@ export const routes: Routes = [
         path: 'chat',
             component: ChatComponent,
       },
+      { path: 'admin-dashboard', component: AdminDashboardComponent }, // Admin Dashboard
+      { path: 'superadmin-dashboard', component: SuperadminDashboardComponent }, // Superadmin Dashboard
+      {
+        path: 'header-admin',
+            component: HeaderAdminComponent,
+      },
+      { path: 'admin-management', component: AdminManagementComponent },
+      
 
 ];
