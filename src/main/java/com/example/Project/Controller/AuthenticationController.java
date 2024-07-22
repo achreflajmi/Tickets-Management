@@ -63,16 +63,20 @@ public class AuthenticationController {
         service.activateAccount(token);
     }
     @GetMapping("/USER")
-    public ResponseEntity<CustomUserDetails> getLoggedInUser(@RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<Integer> getLoggedInUser(@RequestHeader("Authorization") String authorizationHeader) {
         // Extract JWT token from Authorization header (Bearer token)
         String token = authorizationHeader.substring("Bearer ".length()).trim();
 
         // Get CustomUserDetails from JwtService
         CustomUserDetails userDetails = jwtService.getLoggedInUser(token);
 
-        // Return CustomUserDetails with OK status
-        return ResponseEntity.ok().body(userDetails);
+        // Extract user ID from CustomUserDetails
+        int userId = userDetails.getId();
+
+        // Return user ID with OK status
+        return ResponseEntity.ok().body(userId);
     }
+
 
     @GetMapping("/admin/data")
     public ResponseEntity<String> getAdminData() {

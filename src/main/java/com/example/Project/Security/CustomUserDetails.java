@@ -1,8 +1,10 @@
 package com.example.Project.Security;
 
 import com.example.Project.User.User;
+import com.example.Project.User.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,6 +19,7 @@ public class CustomUserDetails implements UserDetails {
     private final LocalDateTime createdDate;
     private final LocalDateTime lastModifiedDate;
     private final Collection<? extends GrantedAuthority> authorities;
+
 
     public CustomUserDetails(User user) {
         this.id = user.getId();
@@ -91,4 +94,6 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }

@@ -1,5 +1,7 @@
 package com.example.Project.Admin;
 
+import com.example.Project.Ticket.Ticket;
+import com.example.Project.Ticket.TicketRepository;
 import com.example.Project.User.User;
 import com.example.Project.User.UserRepository;
 import com.example.Project.role.Role;
@@ -9,36 +11,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class AdminService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final TicketRepository ticketRepository;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void promoteToAdmin(int userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        Role adminRole = roleRepository.findByName("ADMIN")
-                .orElseThrow(() -> new IllegalStateException("ROLE ADMIN not found"));
+//    public List<Ticket> getTicketsByAdminId(int adminId) {
+//        return ticketRepository.findAllByAssignedAdminId(adminId);
+//    }
 
-        if (!user.getRoles().contains(adminRole)) {
-            user.getRoles().add(adminRole);
-            userRepository.save(user);
-        }
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void demoteToUser(int userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-
-        Role adminRole = roleRepository.findByName("ADMIN")
-                .orElseThrow(() -> new IllegalStateException("ROLE ADMIN not found"));
-
-        user.getRoles().remove(adminRole);
-        userRepository.save(user);
-    }
 }

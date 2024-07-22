@@ -59,8 +59,9 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(CustomUserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userDetails.getId());
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
@@ -74,6 +75,8 @@ public class JwtService {
                 .signWith(getSignInKey())
                 .compact();
     }
+
+
 
 
 
@@ -115,6 +118,11 @@ public class JwtService {
                 .claim("authorities", roles) // Store roles as List<String>
                 .signWith(getSignInKey())
                 .compact();
+    }
+    public CustomUserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        return new CustomUserDetails(user);
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
