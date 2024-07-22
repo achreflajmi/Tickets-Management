@@ -10,51 +10,22 @@ import { AdminDashboardComponent } from './Admin/admin-dashboard/admin-dashboard
 import { SuperadminDashboardComponent } from './SuperAdmin/superadmin-dashboard/superadmin-dashboard.component';
 import { HeaderAdminComponent } from './header-admin/header-admin.component';
 import { AdminManagementComponent } from './SuperAdmin/admin-management-component/admin-management-component.component';
+import { ClientManagementComponent } from './SuperAdmin/client-management-component/client-management-component.component';
+import { TicketsManagementComponent } from './SuperAdmin/tickets-management/tickets-management.component';
 
 export const routes: Routes = [
-    {
-        path: 'login',
-        component: LoginComponent,
-      },
-    {
-        path: '',
-        redirectTo: '/superadmin-dashboard',
-        pathMatch: 'full',
-      },
-      
-      {
-        path: 'dashboard',
-            component: DashbordComponent,
-            canActivate: [authGuard], 
-
-      },
-      {
-        path: 'activate-account',
-        component: ActivateAccountComponent
-      },
-      {
-        path: 'header',
-            component: HeaderComponent,
-      },
-      {
-        path: 'register',
-            component: RegistrationComponent,
-      },
-      {
-        path: 'register-admin',
-            component: RegistrationComponent,
-      },
-      {
-        path: 'chat',
-            component: ChatComponent,
-      },
-      { path: 'admin-dashboard', component: AdminDashboardComponent }, // Admin Dashboard
-      { path: 'superadmin-dashboard', component: SuperadminDashboardComponent }, // Superadmin Dashboard
-      {
-        path: 'header-admin',
-            component: HeaderAdminComponent,
-      },
-      { path: 'admin-management', component: AdminManagementComponent },
-      
-
+  { path: 'login', component: LoginComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'dashboard', component: DashbordComponent},
+  { path: 'superadmin-dashboard', component: SuperadminDashboardComponent, canActivate: [authGuard] },
+  { path: 'admin-dashboard', component: AdminDashboardComponent},
+  { path: 'activate-account', component: ActivateAccountComponent },
+  { path: 'header', component: HeaderComponent },
+  { path: 'register', component: RegistrationComponent },
+  { path: 'register-admin', component: RegistrationComponent },
+  { path: 'chat', component: ChatComponent },
+  { path: 'header-admin', component: HeaderAdminComponent },
+  { path: 'admin-management', component: AdminManagementComponent },
+  { path: 'client-management', component: ClientManagementComponent },
+  { path: 'tickets-management', component: TicketsManagementComponent },
 ];

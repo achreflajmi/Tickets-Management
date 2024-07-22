@@ -10,6 +10,5 @@ export interface TicketResponse {
   date: Date;
   status: TicketStatus;
   priority: TicketPriority;
-  locked: boolean; 
 }
   

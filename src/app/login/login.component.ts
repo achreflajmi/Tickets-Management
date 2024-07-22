@@ -10,12 +10,19 @@ import {TokenService} from '../token/token.service';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Roles } from '../models/roles';
 import { SuperadminDashboardComponent } from '../SuperAdmin/superadmin-dashboard/superadmin-dashboard.component';
+import { AdminDashboardComponent } from '../Admin/admin-dashboard/admin-dashboard.component';
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule,DashbordComponent, RegistrationComponent ,CommonModule, RouterModule, FormsModule],
+  imports: [ReactiveFormsModule,DashbordComponent,
+     RegistrationComponent ,
+     CommonModule
+     , RouterModule,
+      FormsModule,
+       SuperadminDashboardComponent,
+        AdminDashboardComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   providers: [
