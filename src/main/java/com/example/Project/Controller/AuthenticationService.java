@@ -1,6 +1,7 @@
 package com.example.Project.Controller;
 
 import com.example.Project.Exception.CustomAuthenticationException;
+import com.example.Project.Security.CustomUserDetails;
 import com.example.Project.Security.JwtService;
 import com.example.Project.User.Token;
 import com.example.Project.User.TokenRepository;
@@ -10,6 +11,7 @@ import com.example.Project.email.EmailService;
 import com.example.Project.email.EmailTemplateName;
 import com.example.Project.role.RoleRepository;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.Project.role.Role;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -120,6 +123,9 @@ public class AuthenticationService {
             var user = userRepository.findByEmail(request.getEmail())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
+            // Create CustomUserDetails instance
+            var customUserDetails = new CustomUserDetails(user);
+
             var auth = new UsernamePasswordAuthenticationToken(
                     request.getEmail(),
                     request.getPassword(),
@@ -130,7 +136,8 @@ public class AuthenticationService {
 
             authenticationManager.authenticate(auth);
 
-            var jwtToken = jwtService.generateToken(user);
+            // Use CustomUserDetails instead of User
+            var jwtToken = jwtService.generateToken(customUserDetails);
 
             return AuthenticationResponse.builder()
                     .token(jwtToken)
@@ -238,5 +245,25 @@ public class AuthenticationService {
         } catch (DataIntegrityViolationException e) {
             throw new IllegalStateException("Failed to add admin due to database constraint violation", e);
         }
+    }
+    public void addClient(RegestrationRequest request) throws MessagingException {
+        User user = new User();
+        user.setFirstname(request.getFirstname());
+        user.setLastname(request.getLastname());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRoles(Collections.singletonList(roleRepository.findByName("USER").orElseThrow()));
+        user.setEnabled(true);
+        userRepository.save(user);
+        // Add logic to send an email to the user if needed
+    }
+
+    public void modifyClient(Integer userId, RegestrationRequest request) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        user.setFirstname(request.getFirstname());
+        user.setLastname(request.getLastname());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        userRepository.save(user);
     }
 }

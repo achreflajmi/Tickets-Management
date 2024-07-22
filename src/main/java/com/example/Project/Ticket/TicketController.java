@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("tickets")
 @RequiredArgsConstructor
@@ -19,6 +22,7 @@ public class TicketController {
 
     private final TicketService service;
 
+    private final TicketMapper ticketMapper;
     @PostMapping
     public ResponseEntity<Integer> saveTicket(
             @Valid @RequestBody TicketRequest request,
@@ -55,6 +59,15 @@ public class TicketController {
     ) {
         return ResponseEntity.ok(service.findAllTickets(page, size, connectedUser));
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<TicketResponse>> getAllTickets() {
+        List<TicketResponse> tickets = service.getAllTickets().stream()
+                .map(ticketMapper::toTicketResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(tickets);
+    }
+
     @GetMapping("/by-user")
     public ResponseEntity<PageResponse<TicketResponse>> getTicketsByUser(
             @RequestParam(defaultValue = "0") int page,

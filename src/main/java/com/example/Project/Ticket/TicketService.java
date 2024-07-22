@@ -19,6 +19,7 @@ import static com.example.Project.Ticket.TicketSpecification.withUserId;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -167,5 +168,18 @@ public class TicketService {
     public List<Ticket> getTicketsByUser(User user) {
         return ticketRepository.findByUser(user);
     }
+    public long countTicketsByUser(User user) {
+        return ticketRepository.countByUser(user);
+    }
+
+    public Long countTicketsByAdminId(Integer adminId) {
+        User admin = userRepository.findById(adminId)
+                .orElseThrow(() -> new EntityNotFoundException("Admin not found"));
+        return ticketRepository.countByAssignedAdmin(admin);
+    }
+    public List<Ticket> getTicketsByAdminId(int adminId) {
+        return ticketRepository.findByAssignedAdminId(adminId);
+    }
+
 }
 
