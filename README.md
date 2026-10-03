@@ -202,14 +202,24 @@ docker compose -f docker-composer.yml up -d
 
 ### 2. Configure the backend
 
-Edit `src/main/resources/application.properties` (or override the values with environment variables):
+Secrets are **never stored in the repo**. They are read from environment variables:
+
+| Variable | Required | Description |
+|---|---|---|
+| `JWT_SECRET_KEY` | ✅ | Base64 HMAC key of at least 256 bits, for example from `openssl rand -base64 32` |
+| `MAIL_PASSWORD` | — | SMTP password. Leave it unset when using MailDev |
+
+```bash
+export JWT_SECRET_KEY=$(openssl rand -base64 32)    # PowerShell: $env:JWT_SECRET_KEY="..."
+```
+
+Other settings are in `src/main/resources/application.properties`:
 
 | Property | Description |
 |---|---|
 | `spring.datasource.url` | `jdbc:mysql://localhost:3306/helpdesk` |
 | `spring.datasource.username` / `password` | Database credentials |
 | `spring.mail.host` / `port` | `localhost` / `1025` to use MailDev |
-| `application.security.jwt.secret-key` | Your own HMAC key (for example `openssl rand -hex 32`) |
 | `application.mailing.frontend.activation-url` | `http://localhost:4200/activate-account` |
 
 ### 3. Run the backend
